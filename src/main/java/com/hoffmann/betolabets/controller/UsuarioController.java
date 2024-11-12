@@ -8,19 +8,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
 @RestController
-@RequestMapping(path = "/v1/usuario")
+@RequestMapping("/cadastro")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
 
-    @PostMapping(value = "/cadastraUsuario", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<UsuarioResponse> cadastraUsuario(
+    @PostMapping
+    public ResponseEntity cadastraUsuario(
             @RequestBody UsuarioRequest request) {
         usuarioService.createUsuario(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public UsuarioResponse buscaUsuario(
+            @RequestParam String email) {
+        return usuarioService.buscaUsuario(email);
     }
 }
