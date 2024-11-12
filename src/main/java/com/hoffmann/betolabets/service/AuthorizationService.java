@@ -1,6 +1,5 @@
 package com.hoffmann.betolabets.service;
 
-import com.hoffmann.betolabets.domain.request.AuthRequest;
 import com.hoffmann.betolabets.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
