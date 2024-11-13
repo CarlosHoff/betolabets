@@ -1,0 +1,121 @@
+{
+	"info": {
+		"_postman_id": "64433b7d-3ec7-4633-9fae-ac22bb2bd658",
+		"name": "Betola BETS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "8155600"
+	},
+	"item": [
+		{
+			"name": "Cadastra usuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"Beto\",\r\n    \"apelido\" : \"betola\",\r\n    \"email\" : \"{{email}}\",\r\n    \"celular\" : \"991872626\",\r\n    \"cpf\" : \"21234123312\",\r\n    \"senha\" : \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8091/register"
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Faz o parse do JSON de resposta para acessar o token\r",
+							"const response = pm.response.json();\r",
+							"const token = response.token;\r",
+							"\r",
+							"// Define o token como uma variável de ambiente chamada 'token' no Postman\r",
+							"pm.environment.set(\"token\", token);\r",
+							"\r",
+							"// Exibe o token no console do Postman para verificação\r",
+							"console.log(\"Token salvo como variável de ambiente:\", token);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"{{email}}\",\r\n    \"password\" : \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8091/auth/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Busca usuario",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8091/register/searchUser?email={{email}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8091",
+					"path": [
+						"register",
+						"searchUser"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "{{email}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
