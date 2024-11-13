@@ -9,20 +9,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/cadastro")
+@RequestMapping("register")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
 
-    @PostMapping("/inserir")
+    @PostMapping("/insertUser")
     public ResponseEntity cadastraUsuario(
             @RequestBody UserRegisterRequest request) {
         usuarioService.createUsuario(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/buscar")
+    @GetMapping("/searchUser")
     public ProfileResponse buscaUsuario(
             @RequestParam String email) {
         return usuarioService.buscaUsuario(email);
