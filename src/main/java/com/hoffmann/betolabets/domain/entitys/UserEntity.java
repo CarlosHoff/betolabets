@@ -11,13 +11,13 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "USUARIO")
-public class Usuario implements UserDetails {
+@Table(name = "USERS")
+public class UserEntity implements UserDetails {
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "SQ_USUARIO")
-    @SequenceGenerator(sequenceName = "SQ_USUARIO", allocationSize = 1, name = "SQ_USUARIO")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "SQ_USERS")
+    @SequenceGenerator(sequenceName = "SQ_USERS", allocationSize = 1, name = "SQ_USERS")
     private Long usuarioID;
 
     @Column(length = 50, name = "NOME", nullable = false)

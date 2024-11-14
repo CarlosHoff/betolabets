@@ -1,6 +1,6 @@
 package com.hoffmann.betolabets.controller;
 
-import com.hoffmann.betolabets.domain.entitys.Usuario;
+import com.hoffmann.betolabets.domain.entitys.UserEntity;
 import com.hoffmann.betolabets.domain.request.LoginRequest;
 import com.hoffmann.betolabets.domain.response.LoginResponse;
 import com.hoffmann.betolabets.security.TokenService;
@@ -32,8 +32,8 @@ public class AuthenticationController {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.username(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+        var token = tokenService.generateToken((UserEntity) auth.getPrincipal());
 
-        return ResponseEntity.ok(new LoginResponse(token, ((Usuario) auth.getPrincipal()).getNome()));
+        return ResponseEntity.ok(new LoginResponse(token, ((UserEntity) auth.getPrincipal()).getNome()));
     }
 }

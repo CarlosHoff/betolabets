@@ -2,29 +2,29 @@ package com.hoffmann.betolabets.controller;
 
 import com.hoffmann.betolabets.domain.request.UserRegisterRequest;
 import com.hoffmann.betolabets.domain.response.ProfileResponse;
-import com.hoffmann.betolabets.service.UsuarioService;
+import com.hoffmann.betolabets.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("register")
-public class UsuarioController {
+@RequestMapping("user")
+public class UserController {
 
     @Autowired
-    private UsuarioService usuarioService;
+    private UserService userService;
 
-    @PostMapping("/insertUser")
+    @PostMapping("/insert")
     public ResponseEntity cadastraUsuario(
             @RequestBody UserRegisterRequest request) {
-        usuarioService.createUsuario(request);
+        userService.createUsuario(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/searchUser")
+    @GetMapping("/search")
     public ProfileResponse buscaUsuario(
             @RequestParam String email) {
-        return usuarioService.buscaUsuario(email);
+        return userService.buscaUsuario(email);
     }
 }
