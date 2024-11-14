@@ -31,8 +31,8 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
-    public ProfileResponse buscaUsuario(String email) {
-        UserEntity userEntity = userRepository.buscarUsuarioPorEmail(email);
+    public ProfileResponse buscaUsuario(Long userID) {
+        UserEntity userEntity = userRepository.findById(userID).orElseThrow();
         return new ProfileResponse(userEntity.getNome(), userEntity.getApelido(), userEntity.getCelular(), userEntity.getEmail());
     }
 }

@@ -23,9 +23,10 @@ public class TokenService {
             String token = JWT.create()
                     .withIssuer("auth-api")
                     .withSubject(user.getEmail())
+                    .withClaim("usuarioID", user.getUsuarioID())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
-            return token;
+            return "Bearer " + token;
         } catch (JWTCreationException exception) {
             throw new RuntimeException("Error while generating token", exception);
         }

@@ -1,5 +1,6 @@
 package com.hoffmann.betolabets.controller;
 
+import com.hoffmann.betolabets.domain.annotation.ExtractID;
 import com.hoffmann.betolabets.domain.request.UserRegisterRequest;
 import com.hoffmann.betolabets.domain.response.ProfileResponse;
 import com.hoffmann.betolabets.service.UserService;
@@ -24,7 +25,7 @@ public class UserController {
 
     @GetMapping("/search")
     public ProfileResponse buscaUsuario(
-            @RequestParam String email) {
-        return userService.buscaUsuario(email);
+            @ExtractID(userID = "usuarioID") Long userID) {
+        return userService.buscaUsuario(userID);
     }
 }
