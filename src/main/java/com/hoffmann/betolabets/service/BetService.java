@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class BetService {
@@ -42,38 +44,31 @@ public class BetService {
         List<BetEntity> listBets = betRepository.findByUsuarioUsuarioID(userID);
 
         List<BetsDto> betsDtoList = listBets.stream()
-                .map(bet -> new BetsDto(
-                        bet.getApostaID(),
-                        bet.getDezenaUm(),
-                        bet.getDezenaDois(),
-                        bet.getDezenaTres(),
-                        bet.getDezenaQuatro(),
-                        bet.getDezenaCinco(),
-                        bet.getDezenaSeis(),
-                        bet.getDezenaSete(),
-                        bet.getDezenaOito(),
-                        bet.getDezenaNove(),
-                        bet.getDezenaDez()
-                ))
-                .collect(Collectors.toList());
+                .map(BetsDto::fromEntity)
+                .toList();
 
         return new BetResponse(userID, betsDtoList);
     }
 
 
+
     private static BetEntity getBetEntity(List<Long> longList, UserEntity usuario) {
+        if (longList == null || longList.size() < 10) {
+            throw new IllegalArgumentException("A lista deve conter 10 números.");
+        }
+
         BetEntity betEntity = new BetEntity();
-        betEntity.setDezenaUm(longList.get(0));
-        betEntity.setDezenaDois(longList.get(1));
-        betEntity.setDezenaTres(longList.get(2));
-        betEntity.setDezenaQuatro(longList.get(3));
-        betEntity.setDezenaCinco(longList.get(4));
-        betEntity.setDezenaSeis(longList.get(5));
-        betEntity.setDezenaSete(longList.get(6));
-        betEntity.setDezenaOito(longList.get(7));
-        betEntity.setDezenaNove(longList.get(8));
-        betEntity.setDezenaDez(longList.get(9));
+        List<Consumer<Long>> setters = List.of(
+                betEntity::setDezenaUm, betEntity::setDezenaDois, betEntity::setDezenaTres,
+                betEntity::setDezenaQuatro, betEntity::setDezenaCinco, betEntity::setDezenaSeis,
+                betEntity::setDezenaSete, betEntity::setDezenaOito, betEntity::setDezenaNove,
+                betEntity::setDezenaDez
+        );
+
+        IntStream.range(0, 10).forEach(i -> setters.get(i).accept(longList.get(i)));
+
         betEntity.setUsuario(usuario);
         return betEntity;
     }
+
 }
